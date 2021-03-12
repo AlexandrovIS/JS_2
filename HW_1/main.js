@@ -1,21 +1,94 @@
-const goods = [
-  { title: 'Shirt', price: 150 },
-  { title: 'Socks', price: 50 },
-  { title: 'Jacket', price: 350 },
-  { title: 'Shoes', price: 250 }
-]
+const baseGood = {
+  getHtml() {
+    return (`
+  <div class="goods-item">
+  <h3>${this.title}</h3>
+  <img src='' alt='${this.title}'>
+  <p class="description">Description ${this.title}</p>
+  <p class="price">${this.price}</p>
+  <button>Add</button>
+  </div>
+  `)
+  }
+}
+function Good(title, price) {
+  this.title = title,
+    this.price = price
+  // this.__proto__ = baseGood
+}
+Good.prototype = baseGood
 
-const $goodsList = document.querySelector('.goods-list')
-
-const renderGoodsItem = ({ title, price }) => {
-  return `<div class="goods-item"><h3>${title}</h3><img src='' alt='${title}'><p class="description">Description ${title}</p><p class="price">${price}</p><button>Add</button></div>`
+function GoodBestSeller(title, price) {
+  this.__proto__ = new Good(title, price)
+  this.getHtml = function () {//переопределяем метод 
+    return (`
+    <div class="goods-item-bestseller">
+    <h3>${this.title}</h3>
+    <p class="price">${this.price}</p>
+    </div>
+    `)
+  }
 }
 
-const renderGoodsList = (list) => {
-  let goodsList = list.map(
-    item => renderGoodsItem(item)
-  ).join('\n')
-  $goodsList.insertAdjacentHTML('beforeend', goodsList)
+// function GoodBestSeller() {
+//   this.getHtml = function () {
+//     return (`
+//     <div class="goods-item-bestseller">
+//     <h3>Хит продаж</h3>
+//     </div>
+//     `)
+//   }
+// }
+
+const api = {
+  fetch() {
+    const goods = [
+      { title: 'name_1', price: '100' },
+      { title: 'name_2', price: '200' },
+      { title: 'name_3', price: '300' },
+    ]// обращение к серверу
+    return goods
+  }
 }
 
-renderGoodsList(goods)
+const apiMock = {
+  names: ['Shirt', 'Socks', 'Jacket', 'Shoes'],
+  colors: ['red', 'blue', 'yellow', 'black'],
+
+  getNumber(max) {
+    return Math.floor(Math.random() * (max))
+  },
+
+  getRandomName() {
+    return `${this.colors[this.getNumber(this.colors.length)]} ${this.names[this.getNumber(this.names.length)]}`
+  },
+
+  fetch() {
+    return Array(this.getNumber(10)).fill('').map(() => ({ title: this.getRandomName(), price: this.getNumber(999) }))
+  }
+}
+
+const goodsList = {
+  apiObject: apiMock,
+  goods: [
+    // new Good('Shirt', 150),
+    // new Good('Socks', 50),
+    // new Good('Jacket', 350),
+    // new Good('Shoes', 250),
+    // new GoodBestSeller()
+  ],
+  getData() {
+    this.goods = this.apiObject.fetch().map(({ title, price }) => new Good/*GoodBestSeller*/(title, price))
+  },
+  container: document.querySelector('.goods-list'),
+
+  render() {
+    this.goods.forEach(item => this.container.insertAdjacentHTML('beforeend', item.getHtml())
+    );
+  }
+}
+
+
+// goodsList.render()
+goodsList.getData()
+goodsList.render()
