@@ -24,7 +24,7 @@
 //   setTimeout(() => {
 //     console.log('message')
 //     resolve('Message_2')
-//   }, 1500)
+//   }, 3000)
 // }
 // )
 // // live.then((data) => {
@@ -65,13 +65,6 @@
 // })
 
 //___________________________________________________________________
-
-
-
-
-class Bin {
-  constructor() { }
-}
 
 class Api {
   constructor() {
@@ -140,7 +133,6 @@ class GoodsList {
     this.$goodsList = document.querySelector('.goods-list')
     this.goods = []
 
-
     // this.api.fetch(this.onFetchError.bind(this), this.onFetchSuccess.bind(this))
     this.api.fetchPromise()
       .then((response) => this.api.fromJSON(response))
@@ -151,6 +143,7 @@ class GoodsList {
   onFetchSuccess(data) {
     this.goods = data.map(({ title, price }) => new GoodsItem(title, price))
     this.render()
+
   }
 
   onFetchError(err) {
@@ -159,7 +152,7 @@ class GoodsList {
   }
 
   render() {
-    this.$goodsList.textContent = ''
+    // this.$goodsList.textContent = ''
     this.goods.forEach((good) => {
       this.$goodsList.insertAdjacentHTML('beforeend', good.getHtml())
     })
@@ -171,6 +164,54 @@ class GoodsList {
   }
 }
 
-
 new GoodsList()
+
+window.onload = function () {
+
+  document.querySelectorAll('.goods-item button').forEach((btn) => btn.addEventListener('click', (event) => {
+    let title = event.target.parentElement.querySelector('h3').textContent
+    let price = event.target.parentElement.querySelector('.price').textContent
+
+    goodsBin.push(title, price)
+    goodsBin.fetchGoods()
+    goodsBin.render()
+
+    document.querySelectorAll('.bin button').forEach((btn) => btn.addEventListener('click', (e) => {
+      let title = e.target.parentElement.querySelector('h3').textContent
+      goodsBin.goodsBin.splice(goodsBin.goodsBin.indexOf(goodsBin.goodsBin.find(item => item.title === title)), 1)
+      console.log(goodsBin.goodsBin)
+    }))
+
+  }))
+
+}
+
+class Bin {
+  constructor(title, price) {
+    this.$goodsBin = document.querySelector('.bin')
+    this.title = title
+    this.price = price
+    this.goodsBin = [
+      { title: this.title, price: this.price },
+    ]
+  }
+  push(title, price) {
+    return this.goodsBin.push({ title, price })
+  }
+  fetchGoods() {
+    this.goodsBin = this.goodsBin.map(({ title, price }) => new
+      GoodsItem(title, price))
+  }
+  render() {
+    this.$goodsBin.textContent = ''
+    this.goodsBin.forEach((good) => {
+      this.$goodsBin.insertAdjacentHTML('beforeend', good.getHtml())
+    })
+  }
+
+}
+
+const goodsBin = new Bin('name nul', 1000)
+
+
 

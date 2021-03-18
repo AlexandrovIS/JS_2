@@ -54,8 +54,12 @@ main{
   }
 }
 header{
-  display: flex;
-  justify-content: flex-end;
+  
+  button{}
+  .bin{
+    display: flex;
+    flex-direction: row;
+  }
 }
 .cart-button{
   margin: 10px 0;
