@@ -11,11 +11,29 @@
 
 <body>
   <header>
-    <div class="bin"></div>
+    <div class="bin wrapper"></div>
+
+    <button class="cart-button" type="button">Bin</button><br>
     <input id="search">
-    <button class="cart-button" type="button">Bin</button>
   </header>
   <div class="wrapper">
+    <div id="app">
+      <!-- <h1 v-if="name.length>0"> Hello, my name is {{ name.toUpperCase() }}</h1>
+      <input v-model="name"> -->
+
+      <!-- {{ getNameToUpperCase() }}
+      {{ fullName }} -->
+
+      <input v-model="title">
+      <input v-model="price">
+      <button v-on:click="add">ADD</button>
+      <ul>
+        <li v-for="good in goods">
+          <h3>{{good.title}}</h3><span>{{good.price}}</span>
+        </li>
+      </ul>
+    </div>
+
     <main>
       <div class="goods-list"></div>
     </main>
@@ -32,19 +50,23 @@
     </section>
     <section>
       <form class="user_form">
-        <input type="text" placeholder="Name" id="inputName">
-        <input type="tel" placeholder="Tel" id="inputTel">
-        <input type="email" placeholder="E-mail" id="inputEmail">
-        <textarea name="" id="" cols="20" rows="5" placeholder="Your message"></textarea>
+        <input type="text" placeholder="Name" id="inputName"><br>
+        <input type="tel" placeholder="Tel" id="inputTel"><br>
+        <input type="email" placeholder="E-mail" id="inputEmail"><br>
+        <textarea name="" id="" cols="20" rows="5" placeholder="Your message"></textarea><br>
         <button id="sentButton">Send</button>
       </form>
     </section>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
   <!-- <script src="main.js"></script> -->
   <!-- <script src="lesson_2_class.js"></script> -->
   <!-- <script src="lesson_3.js"></script> -->
-  <!-- <script src="script.js"></script> -->
+  <script src="script.js"></script>
   <script src="lesson_4.js"></script>
+  <script src="lesson_5.js"></script>
+
 </body>
 
 </html>

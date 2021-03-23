@@ -104,25 +104,16 @@ class GoodsList {
     this.render()
 
     document.querySelectorAll('.goods-item button').forEach((btn) => btn.addEventListener('click', goodsBin.addToBin))
-
-
   }
-
   onFetchError(err) {
     this.$goodsList.insertAdjacentHTML('beforeend', `<h3>${err}</h3>`)
   }
-
   render() {
     this.$goodsList.textContent = ''
     this.filteredGoods.forEach((good) => {
       this.$goodsList.insertAdjacentHTML('beforeend', good.getHtml())
     })
   }
-  // sumItems() {
-  //   console.log(this.goods.reduce((prev, currentValue) => {
-  //     return prev + currentValue.price
-  //   }, 0))
-  // }
 }
 
 class Bin {
@@ -130,12 +121,10 @@ class Bin {
     this.$goodsBin = document.querySelector('.bin')
     this.title = title
     this.price = price
-    this.goodsBin = [
-      { title: this.title, price: this.price },
-    ]
+    this.goodsBin = []
   }
   push(title, price) {
-    return this.goodsBin.push({ title, price })
+    this.goodsBin.push({ title, price })
   }
   fetchGoods() {
     this.goodsBin = this.goodsBin.map(({ title, price }) => new
@@ -159,26 +148,19 @@ class Bin {
   }
   deleteInBin(event) {
     let title = event.target.parentElement.querySelector('h3').textContent
-
     goodsBin.goodsBin.splice(goodsBin.goodsBin.indexOf(goodsBin.goodsBin.find(item => item.title === title)), 1)
     goodsBin.render()
-    goodsBin.decreaseSumBin()
+    goodsBin.increaseSumBin()
   }
   increaseSumBin() {
     console.log(this.goodsBin.reduce((prev, currentValue) => {
       return prev + currentValue.price
     }, 0))
   }
-  decreaseSumBin() {
-    this.goodsBin.reduce((prev, currentValue) => {
-      return prev - currentValue.price
-    }, goodsBin.increaseSumBin())
-  }
 }
 
 new GoodsList()
-
-const goodsBin = new Bin('name', 0)
+const goodsBin = new Bin()
 
 
 
