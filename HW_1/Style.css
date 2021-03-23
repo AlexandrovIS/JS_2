@@ -98,4 +98,8 @@ button:hover {
 input {
   border: 1px solid #000;
 }
+
+.errorInput {
+  border: 1px solid #db1414;
+}
 /*# sourceMappingURL=Style.css.map */

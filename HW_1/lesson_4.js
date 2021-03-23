@@ -62,3 +62,46 @@ form.addEventListener('submit', (e) => {
   }
   return false
 })
+//1 
+const regexpText = /(?<= )\'|\'(?= )/g
+const text = document.querySelector('.text')
+text.innerHTML = text.textContent.replace(regexpText, '"')
+
+//2
+const button = document.querySelector('#sentButton').addEventListener('click', checkForm)
+
+const userForm = document.querySelector('.user_form')
+
+const userName = userForm.querySelector('#inputName')
+const userTel = userForm.querySelector('#inputTel')
+const userEmail = userForm.querySelector('#inputEmail')
+
+const regName = /^[a-zа-яёЁ]+$/i
+const regTel = /^\+?[78][-\(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$/
+const regEmail = /^[a-z0-9]+[_.-]?@[a-z]+\.[a-z]{2,3}$/i
+
+function checkForm(event) {
+  event.preventDefault()
+  // if(false){
+
+  // }
+  if (!regName.test(userName.value)) errorMessage(userName)
+  else removeError(userName)
+  if (!regTel.test(userTel.value)) errorMessage(userTel, 'некорректный номер')
+  else removeError(userTel)
+  if (!regEmail.test(userEmail.value)) errorMessage(userEmail)
+  else removeError(userEmail)
+
+}
+
+function errorMessage(name, message = 'error') {
+  name.value = ''
+  name.setAttribute('placeholder', message)
+  name.classList = 'errorInput'
+}
+function removeError(name) {
+  name.classList.remove('errorInput')
+}
+
+
+

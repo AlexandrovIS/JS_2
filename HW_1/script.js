@@ -44,8 +44,8 @@ class Api {
 
 class GoodsItem {
   constructor(title, price) {
-    this.title = title,
-      this.price = price
+    this.title = title
+    this.price = price
   }
   getHtml() {
     return (`
@@ -72,14 +72,6 @@ class Header {
     this.$button.addEventListener('click', callback)
   }
 }
-class HH {
-  constructor() {
-    this.$button = document.querySelectorAll('button')
-  }
-  setButton(callback) {
-    this.$button.forEach((item) => item.addEventListener('click', callback))
-  }
-}
 
 class GoodsList {
   constructor() {
@@ -92,7 +84,6 @@ class GoodsList {
     this.header.setSearchHandler((evt) => {
       this.search(evt.target.value)
     })
-
 
     this.api.fetchPromise()
       .then((response) => this.api.fromJSON(response))
@@ -111,10 +102,13 @@ class GoodsList {
     this.goods = data.map(({ title, price }) => new GoodsItem(title, price))
     this.filteredGoods = this.goods
     this.render()
+
+    document.querySelectorAll('.goods-item button').forEach((btn) => btn.addEventListener('click', goodsBin.addToBin))
+
+
   }
 
   onFetchError(err) {
-    // this.$goodsList.insertAdjacentHTML('beforeend', '<h3>ошибка</h3>')
     this.$goodsList.insertAdjacentHTML('beforeend', `<h3>${err}</h3>`)
   }
 
@@ -124,24 +118,21 @@ class GoodsList {
       this.$goodsList.insertAdjacentHTML('beforeend', good.getHtml())
     })
   }
-  sumItems() {
-    console.log(this.goods.reduce((prev, currentValue) => {
-      return prev + currentValue.price
-    }, 0))
-  }
+  // sumItems() {
+  //   console.log(this.goods.reduce((prev, currentValue) => {
+  //     return prev + currentValue.price
+  //   }, 0))
+  // }
 }
 
 class Bin {
   constructor(title, price) {
-    this.but = new HH()
     this.$goodsBin = document.querySelector('.bin')
     this.title = title
     this.price = price
     this.goodsBin = [
       { title: this.title, price: this.price },
     ]
-
-    this.but.setButton(openCart)
   }
   push(title, price) {
     return this.goodsBin.push({ title, price })
@@ -155,62 +146,40 @@ class Bin {
     this.goodsBin.forEach((good) => {
       this.$goodsBin.insertAdjacentHTML('beforeend', good.getHtml())
     })
+    document.querySelectorAll('.bin button').forEach((item) => item.addEventListener('click', goodsBin.deleteInBin))
   }
-  click() {
-    window.onload = function () {
-
-      // document.querySelectorAll('.goods-item button').forEach((btn) => btn.addEventListener('click', (event) => {
-      //   let title = event.target.parentElement.querySelector('h3').textContent
-      //   let price = event.target.parentElement.querySelector('.price').textContent
-
-      //   goodsBin.push(title, price)
-      //   goodsBin.load()
-
-
-      //   document.querySelectorAll('.bin button').forEach((btn) => btn.addEventListener('click', (e) => {
-      //     let title = e.target.parentElement.querySelector('h3').textContent
-      //     goodsBin.goodsBin.splice(goodsBin.goodsBin.indexOf(goodsBin.goodsBin.find(item => item.title === title)), 1)
-      //     console.log(goodsBin.goodsBin)
-
-      //   }))
-
-      // }))
-
-    }
-
-  }
-  load() {
+  addToBin(event) {
+    let title = event.target.parentElement.querySelector('h3').textContent
+    let price = Number(event.target.parentElement.querySelector('.price').textContent)
+    goodsBin.push(title, price)
     goodsBin.fetchGoods()
     goodsBin.render()
+    goodsBin.increaseSumBin()
+
+  }
+  deleteInBin(event) {
+    let title = event.target.parentElement.querySelector('h3').textContent
+
+    goodsBin.goodsBin.splice(goodsBin.goodsBin.indexOf(goodsBin.goodsBin.find(item => item.title === title)), 1)
+    goodsBin.render()
+    goodsBin.decreaseSumBin()
+  }
+  increaseSumBin() {
+    console.log(this.goodsBin.reduce((prev, currentValue) => {
+      return prev + currentValue.price
+    }, 0))
+  }
+  decreaseSumBin() {
+    this.goodsBin.reduce((prev, currentValue) => {
+      return prev - currentValue.price
+    }, goodsBin.increaseSumBin())
   }
 }
-
-function openCart() {
-  console.log('cart')
-}
-// const header = new Header()
-// header.setButtonHandler(openCart)
-
 
 new GoodsList()
 
-
-
-const goodsBin = new Bin()
-goodsBin.click()
-goodsBin.load()
+const goodsBin = new Bin('name', 0)
 
 
 
 
-// function a() {
-//   document.querySelectorAll('header button').addEventListener('click', (e) => {
-//     console.log('e');
-//   })
-// }
-// a()
-// function b() {
-//   document.querySelectorAll('header button').forEach((item) => item.addEventListener('click', (e) => {
-//     console.log('button', e.target);
-//   }))
-// }
