@@ -94,4 +94,8 @@ header .bin {
 button:hover {
   background-color: gray;
 }
+
+input {
+  border: 1px solid #000;
+}
 /*# sourceMappingURL=Style.css.map */

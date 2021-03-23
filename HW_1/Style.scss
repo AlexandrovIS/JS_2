@@ -54,7 +54,7 @@ main{
   }
 }
 header{
-  
+ 
   button{}
   .bin{
     display: flex;
@@ -68,4 +68,8 @@ header{
 }
 button:hover{
   background-color: gray;
+}
+
+input{
+  border: 1px solid #000;
 }

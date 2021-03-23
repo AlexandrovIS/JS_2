@@ -1,9 +1,9 @@
 
 class Api {
   constructor() {
-    // this.url = 'https://raw.githubusercontent.com/DeevMaks/GB_java_script_part_2/main/goods.json'
+    this.url = 'https://raw.githubusercontent.com/DeevMaks/GB_java_script_part_2/main/goods.json'
 
-    this.url = 'http://127.0.0.1:5501/HW_1/goods.json'
+    // this.url = 'http://127.0.0.1:5501/HW_1/goods.json'
   }
   fetch(error, success) {
     let xhr
@@ -59,24 +59,58 @@ class GoodsItem {
     `)
   }
 }
+class Header {
+  constructor() {
+    this.$container = document.querySelector('header')
+    this.$button = this.$container.querySelector('.cart-button')
+    this.$search = this.$container.querySelector('#search')
+  }
+  setSearchHandler(callback) {
+    this.$search.addEventListener('input', callback)
+  }
+  setButtonHandler(callback) {
+    this.$button.addEventListener('click', callback)
+  }
+}
+class HH {
+  constructor() {
+    this.$button = document.querySelectorAll('button')
+  }
+  setButton(callback) {
+    this.$button.forEach((item) => item.addEventListener('click', callback))
+  }
+}
 
 class GoodsList {
   constructor() {
     this.api = new Api()
+    this.header = new Header()
     this.$goodsList = document.querySelector('.goods-list')
     this.goods = []
+    this.filteredGoods = []
 
-    // this.api.fetch(this.onFetchError.bind(this), this.onFetchSuccess.bind(this))
+    this.header.setSearchHandler((evt) => {
+      this.search(evt.target.value)
+    })
+
+
     this.api.fetchPromise()
       .then((response) => this.api.fromJSON(response))
       .then((data) => { this.onFetchSuccess(data) })
       .catch((err) => { this.onFetchError(err) })
   }
-
+  search(str) {
+    if (str === '') {
+      this.filteredGoods = this.goods
+    }
+    const regexp = new RegExp(str, 'gi')
+    this.filteredGoods = this.goods.filter((good) => regexp.test(good.title))
+    this.render()
+  }
   onFetchSuccess(data) {
     this.goods = data.map(({ title, price }) => new GoodsItem(title, price))
+    this.filteredGoods = this.goods
     this.render()
-
   }
 
   onFetchError(err) {
@@ -85,8 +119,8 @@ class GoodsList {
   }
 
   render() {
-    // this.$goodsList.textContent = ''
-    this.goods.forEach((good) => {
+    this.$goodsList.textContent = ''
+    this.filteredGoods.forEach((good) => {
       this.$goodsList.insertAdjacentHTML('beforeend', good.getHtml())
     })
   }
@@ -97,16 +131,17 @@ class GoodsList {
   }
 }
 
-
-
 class Bin {
   constructor(title, price) {
+    this.but = new HH()
     this.$goodsBin = document.querySelector('.bin')
     this.title = title
     this.price = price
     this.goodsBin = [
       { title: this.title, price: this.price },
     ]
+
+    this.but.setButton(openCart)
   }
   push(title, price) {
     return this.goodsBin.push({ title, price })
@@ -123,41 +158,59 @@ class Bin {
   }
   click() {
     window.onload = function () {
-      document.querySelectorAll('.goods-item button').forEach((btn) => btn.addEventListener('click', (event) => {
-        let title = event.target.parentElement.querySelector('h3').textContent
-        let price = event.target.parentElement.querySelector('.price').textContent
 
-        goodsBin.push(title, price)
-        goodsBin.load()
+      // document.querySelectorAll('.goods-item button').forEach((btn) => btn.addEventListener('click', (event) => {
+      //   let title = event.target.parentElement.querySelector('h3').textContent
+      //   let price = event.target.parentElement.querySelector('.price').textContent
+
+      //   goodsBin.push(title, price)
+      //   goodsBin.load()
 
 
-        document.querySelectorAll('.bin button').forEach((btn) => btn.addEventListener('click', (e) => {
-          let title = e.target.parentElement.querySelector('h3').textContent
-          goodsBin.goodsBin.splice(goodsBin.goodsBin.indexOf(goodsBin.goodsBin.find(item => item.title === title)), 1)
-          console.log(goodsBin.goodsBin)
+      //   document.querySelectorAll('.bin button').forEach((btn) => btn.addEventListener('click', (e) => {
+      //     let title = e.target.parentElement.querySelector('h3').textContent
+      //     goodsBin.goodsBin.splice(goodsBin.goodsBin.indexOf(goodsBin.goodsBin.find(item => item.title === title)), 1)
+      //     console.log(goodsBin.goodsBin)
 
-        }))
+      //   }))
 
-      }))
+      // }))
+
     }
+
   }
   load() {
     goodsBin.fetchGoods()
     goodsBin.render()
   }
 }
+
+function openCart() {
+  console.log('cart')
+}
+// const header = new Header()
+// header.setButtonHandler(openCart)
+
+
 new GoodsList()
+
+
+
 const goodsBin = new Bin()
 goodsBin.click()
 goodsBin.load()
 
 
 
-// чего - то я попплыл! в промисах вообще толком не разобрался! если не сложно дайте, плж, комментариии. 
-//1) я вешаю слушителя на кнопки товара! он может работать только через window.onload. Я думал, что как-то можно через промисы сделать, типа пока не отрисуте товары - не начинать слушать, но ничего не получается у меня
-// 2) я на каждый клик на кнопку товара отрисовываю его в корзине, т.е. на каждое нажатие идет отрисова - новый рендер. Но у меня получается, чтобы удалить товар, я должен слушать кнопки после того, как товар попал в корзину, получается, что я слушаю внуутри слушателя. Я тоже пытался через промисы это организовать, но вообще не понял как то сделать. 
-//3) по итогу получается, что я на втором кругу слушанья кнопок товаров в корзине смог за счет клика удалить товар из массива, но я не могу его отрисовать иначе все ломается. Проверьте пожалуйста, потому что это какое-то мое глобальное непонимание! Я зациклился на этом моменте! Я либо могу отрисовать один раз новую корзину и дальше уже ничего не работает! либо могу кликом удалять товары с массива корзины, но вызвать новую отрисовку могу только нажав уже на сам товар! 
-//4) я абсолютно не понимаю как работаю промисы для событий клика и т.д. 
-//5) ну и у меня косяк с созданием корзины! Дело в том, что создавая корзину изначально она не создается пустой, там по умолчанию пустой товар в нулевом индеке , это явно мое концептуальное недопанимание ! Но при этом я ж не могу на каждый клик создавать новый экземпляр корзины! Как мне кажется , я на клик должен пушить товар в массив корзицы и на клике в корзине удалять указанный товар из массива. 
 
-//ПОМОГИТЕ РАЗОБРАТЬСЯ 
+// function a() {
+//   document.querySelectorAll('header button').addEventListener('click', (e) => {
+//     console.log('e');
+//   })
+// }
+// a()
+// function b() {
+//   document.querySelectorAll('header button').forEach((item) => item.addEventListener('click', (e) => {
+//     console.log('button', e.target);
+//   }))
+// }
