@@ -35,6 +35,6 @@ const vue = new Vue({
         { title: "T-Shirt", price: 100 },
         { title: "Jacket", price: 450 }
       ]
-    }, 3000)
+    }, 1000)
   }
 })
