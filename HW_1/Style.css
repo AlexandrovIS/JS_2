@@ -37,8 +37,8 @@ main .goods-list .goods-item {
   padding: 15px;
   -ms-flex-preferred-size: 375px;
       flex-basis: 375px;
-  -webkit-box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.1) inset;
-          box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.1) inset;
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(26, 28, 29, 0.1) inset;
+          box-shadow: 0px 0px 1px 1px rgba(26, 28, 29, 0.1) inset;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -48,6 +48,10 @@ main .goods-list .goods-item {
           flex-direction: column;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  -webkit-transition: -webkit-box-shadow 0.5s ease 0.2s;
+  transition: -webkit-box-shadow 0.5s ease 0.2s;
+  transition: box-shadow 0.5s ease 0.2s;
+  transition: box-shadow 0.5s ease 0.2s, -webkit-box-shadow 0.5s ease 0.2s;
 }
 
 main .goods-list .goods-item img {
@@ -81,6 +85,11 @@ main .goods-list .goods-item .item-button {
 
 main .goods-list .goods-item .item-button:hover {
   background-color: rgba(121, 121, 121, 0.4);
+}
+
+main .goods-list .goods-item:hover {
+  -webkit-box-shadow: 0px 0px 2px 2px rgba(41, 40, 40, 0.1) inset;
+          box-shadow: 0px 0px 2px 2px rgba(41, 40, 40, 0.1) inset;
 }
 
 header {
@@ -191,25 +200,25 @@ header .header_bottom input::placeholder {
 
 header .header_bottom input:focus::-webkit-input-placeholder {
   opacity: 0;
-  -webkit-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
+  -webkit-transition: opacity 1s ease;
+  transition: opacity 1s ease;
 }
 
 header .header_bottom input:focus:-ms-input-placeholder {
   opacity: 0;
-  -webkit-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
+  -webkit-transition: opacity 1s ease;
+  transition: opacity 1s ease;
 }
 
 header .header_bottom input:focus::-ms-input-placeholder {
   opacity: 0;
-  -webkit-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
+  -webkit-transition: opacity 1s ease;
+  transition: opacity 1s ease;
 }
 
 header .header_bottom input:focus::placeholder {
   opacity: 0;
-  -webkit-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
+  -webkit-transition: opacity 1s ease;
+  transition: opacity 1s ease;
 }
 /*# sourceMappingURL=Style.css.map */
