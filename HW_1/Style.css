@@ -1,8 +1,24 @@
-@charset "UTF-8";
 @import url(../HW_1/Zeroing_style.css);
 .wrapper {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.wrapper .top {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.container {
   max-width: 1140px;
-  margin: 0 auto;
+  margin: 0  auto;
 }
 
 main .goods-list {
@@ -14,15 +30,15 @@ main .goods-list {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  gap: 10px;
+  gap: 5px;
 }
 
 main .goods-list .goods-item {
-  padding: 20px;
-  -ms-flex-preferred-size: 370px;
-      flex-basis: 370px;
-  -webkit-box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.2) inset;
-          box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.2) inset;
+  padding: 15px;
+  -ms-flex-preferred-size: 375px;
+      flex-basis: 375px;
+  -webkit-box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.1) inset;
+          box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.1) inset;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -30,33 +46,8 @@ main .goods-list .goods-item {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-}
-
-main .goods-list .goods-item h3 {
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
-  font-size: 30px;
-  font-weight: 400;
-}
-
-main .goods-list .goods-item p {
-  padding: 15px 0;
-  font-size: 20px;
-}
-
-main .goods-list .goods-item .description {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-}
-
-main .goods-list .goods-item .price {
-  font-weight: 600;
-}
-
-main .goods-list .goods-item .price::after {
-  content: ' руб';
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 main .goods-list .goods-item img {
@@ -68,14 +59,63 @@ main .goods-list .goods-item img {
   max-height: 150px;
 }
 
-main .goods-list .goods-item button {
-  padding: 10px;
-  width: 30%;
-  -ms-flex-item-align: end;
-      align-self: flex-end;
+main .goods-list .goods-item h3 {
+  font-size: 20px;
+  font-weight: 400;
 }
 
-header .bin {
+main .goods-list .goods-item p {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+main .goods-list .goods-item .item-button {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  background: rgba(121, 121, 121, 0.1);
+  padding: 5px 20px;
+}
+
+main .goods-list .goods-item .item-button:hover {
+  background: rgba(121, 121, 121, 0.4);
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+header .header_top {
+  margin: 20px 0;
+}
+
+header .header_top ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+header .header_top ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 5px;
+}
+
+header .header_bottom {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -83,23 +123,37 @@ header .bin {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  margin-bottom: 20px;
+  gap: 20px;
 }
 
-.cart-button {
-  margin: 10px 0;
-  padding: 10px 30px;
-  font-size: 20px;
+header .header_bottom :first-child {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
-button:hover {
-  background-color: gray;
+header .header_bottom .cart-button {
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding: 10px 0;
+  padding-left: 40px;
+  width: 100px;
+  border-radius: 5px;
+  background: rgba(121, 121, 121, 0.1);
 }
 
-input {
-  border: 1px solid #000;
+header .header_bottom .cart-button:hover {
+  background: rgba(121, 121, 121, 0.4);
 }
 
-.errorInput {
-  border: 1px solid #db1414;
+header .header_bottom input {
+  padding: 5px;
+  -webkit-box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.1) inset;
+          box-shadow: 0px 0px 2px 2px rgba(26, 28, 29, 0.1) inset;
+  border-radius: 5px;
 }
 /*# sourceMappingURL=Style.css.map */
