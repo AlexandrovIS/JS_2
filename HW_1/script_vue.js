@@ -57,10 +57,8 @@ const vue = new Vue({
       //     console.log('1')
       //   }
       // })
-
       const index = event.target.dataset.index
       this.bin.push(this.filtredGoods[index])
-
     },
     removeBinHandler(event) {
       const index = event.target.dataset.index
@@ -74,7 +72,7 @@ const vue = new Vue({
 
     imgAlt(index) {
       return "IMG_" + this.filtredGoods[index].title
-    }
+    },
   },
 
   mounted() {
@@ -87,5 +85,4 @@ const vue = new Vue({
         document.querySelector('.goods-list').innerHTML = err
       })
   }
-
 })
