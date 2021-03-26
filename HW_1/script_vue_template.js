@@ -1,17 +1,58 @@
 const API_URL = 'https://raw.githubusercontent.com/DeevMaks/GB_java_script_part_2/main/goods.json'
 
+Vue.component('goods-item', {
+  template: `<div :data-id="id" class="goods-item">
+  <h3>{{title}}</h3>
+  <p>{{price}}</p>
+  </div>`,
+  props: ['title', 'price', 'id']
+})
+
+Vue.component('cart', {
+  template: `<div>
+  <button class="cart-button" @click="openCartHandler" type="button">
+  BIN</button> 
+  <div v-if="isVisibleCart" v-on:click="removeHandler">
+  <slot></slot>
+  </div>
+  </div>`,
+  data() {
+    return {
+      isVisibleCart: false
+    }
+  },
+  methods: {
+    openCartHandler() {
+      this.isVisibleCart = !this.isVisibleCart
+    },
+
+    removeHandler(e) {
+      this.$emit('remove', e)
+    }
+  }
+})
+
 const vue = new Vue({
   el: '#app',
   data: {
+    cart: [],
     goods: [],
     filtredGoods: [],
-    bin: [],
-    // isBinOpen: false,
-    show: false,
-    isActive: true,
     search: ''
   },
   methods: {
+    addToCartHandler(e) {
+      const id = e.target.closest('.goods-item').dataset.id
+      const good = this.goods.find((item) => item.id == id)
+      this.cart.push(good)
+    },
+
+    removeFromCartHandler(e) {
+      const id = e.target.closest('.goods-item').dataset.id
+      const goodIndex = this.cart.findIndex((item) => item.id == id)
+      this.cart.splice(goodIndex, 1)
+    },
+
     searchHandler() {
       if (this.search === '') {
         this.filtredGoods = this.goods
@@ -47,34 +88,8 @@ const vue = new Vue({
       return new Promise((resolve, reject) => {
         this.fetch(reject, resolve)
       })
-    },
-    // openBinHandler() {
-    //   this.isBinOpen = !this.isBinOpen
-    // },
-    addToBin(event) {
-      // this.bin.forEach((item) => {
-      //   if (item.title === event.target.parentElement.querySelector('h3').textContent) {
-      //   }
-      // })
-
-      const index = event.target.dataset.index
-      this.bin.push(this.filtredGoods[index])
-    },
-    removeBinHandler(event) {
-      const index = event.target.dataset.index
-      this.bin.splice(index, 1)
-    },
-    sumBin() {
-      return this.bin.reduce((prev, currentValue) => {
-        return prev + currentValue.price
-      }, 0)
-    },
-
-    imgAlt(index) {
-      return "IMG_" + this.filtredGoods[index].title
-    },
+    }
   },
-
   mounted() {
     this.fetchPromise()
       .then(data => {

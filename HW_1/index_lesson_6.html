@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 6 VUE JS</title>
+  <style>
+    .active {
+      background-color: red;
+
+      transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+
+    .inactive {
+      background-color: bisque;
+      transition: all 1s linear;
+      transform: translateY(10px);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <hello>World</hello>
+    <hello>Jan</hello> -->
+    <div :class="class_name"></div>
+    <div v-bind:class="{active:isActive}"></div>
+    <div v-bind:class="[isActive===true?'active':'inactive']" v-on:click="isActive=!isActive">Lorem ipsum dolor sit,
+      amet consectetur adipisicing elit.
+      Similique, tempora vitae perspiciatis totam omnis consequatur facere quisquam quaerat assumenda, alias at suscipit
+    </div>
+    <hello v-bind:user_name="name" v-bind:user_last_name="last_name"></hello>
+    <hello v-bind:user_name="name" v-bind:user_last_name="last_name" />
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="lesson_6.js"></script>
+</body>
+
+</html>
