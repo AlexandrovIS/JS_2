@@ -18,41 +18,44 @@
         <header class="container">
           <div class="header_top">
             <!-- bin -->
-            <div v-if="isBinOpen">
-              <ul>
-                <li v-for="(good,index) in bin">
-                  <h3>
-                    {{good.title}}
-                  </h3>
-                  <h3>
-                    {{ good.price }}
-                  </h3>
+            <transition name="slide-fade">
+              <div v-if="show">
+                <!-- <div v-if="isBinOpen"> -->
+                <ul>
+                  <li v-for="(good,index) in bin">
+                    <h3>
+                      {{good.title}}
+                    </h3>
+                    <h3>
+                      {{ good.price }}
+                    </h3>
 
-                  <button :data-index="index" v-on:click="removeBinHandler">
-                    remove
-                  </button>
-                </li>
-              </ul>
-              <div v-if="sumBin()>0">
-                <h3>Sum {{sumBin()}}</h3>
+                    <button :data-index="index" v-on:click="removeBinHandler">
+                      remove
+                    </button>
+                  </li>
+                </ul>
+                <div v-if="sumBin()>0">
+                  <h3>Sum {{sumBin()}}</h3>
+                </div>
+                <!-- </div> -->
               </div>
-            </div>
+            </transition>
+            <!--  -->
           </div>
           <div class="header_bottom">
             <!-- search input -->
             <input id="search" v-model="search" v-on:input="searchHandler" placeholder="search">
 
             <!-- button bin -->
-            <div class="cart-button" type="button" v-on:click="openBinHandler">
+            <!-- <div class="cart-button" type="button" v-on:click="openBinHandler"> -->
+            <div class="cart-button" type="button" v-on:click="show = !show">
               BIN
               <span v-if="bin.length>0">{{ bin.length }}</span>
             </div>
           </div>
-
-
-
-
         </header>
+
         <main class="container">
           <div class="goods-list">
             <div class="goods-item" v-for="(good, index) in filtredGoods">
@@ -64,9 +67,12 @@
             </div>
           </div>
         </main>
+
       </div>
+
     </div>
     <div class="footer">
+
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, natus iusto nam obcaecati velit
       maiores vel, perferendis vitae odio doloribus corrupti labore sed quisquam deleniti ullam doloremque. Tempore
       itaque doloribus assumenda ipsa, ipsam consectetur beatae magnam possimus ratione libero vitae architecto ducimus.

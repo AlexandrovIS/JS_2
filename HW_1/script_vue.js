@@ -6,8 +6,9 @@ const vue = new Vue({
     goods: [],
     filtredGoods: [],
     bin: [],
-    isBinOpen: false,
+    // isBinOpen: false,
     quarel: 1,
+    show: false,
     search: ''
   },
   methods: {
@@ -47,10 +48,9 @@ const vue = new Vue({
         this.fetch(reject, resolve)
       })
     },
-    openBinHandler() {
-      this.isBinOpen = !this.isBinOpen
-    },
-
+    // openBinHandler() {
+    //   this.isBinOpen = !this.isBinOpen
+    // },
     addToBin(event) {
       // this.bin.forEach((item) => {
       //   if (item.title === event.target.parentElement.querySelector('h3').textContent) {

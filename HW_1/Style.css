@@ -221,4 +221,20 @@ header .header_bottom input:focus::placeholder {
   -webkit-transition: opacity 1s ease;
   transition: opacity 1s ease;
 }
+
+.slide-fade-enter-active {
+  -webkit-transition: all 1.3s ease;
+  transition: all 1.3s ease;
+}
+
+.slide-fade-leave-active {
+  -webkit-transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+  -webkit-transform: translateY(20px);
+          transform: translateY(20px);
+  opacity: 0.3;
+}
 /*# sourceMappingURL=Style.css.map */
