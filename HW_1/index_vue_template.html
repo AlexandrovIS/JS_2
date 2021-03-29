@@ -16,8 +16,8 @@
     <div class="top">
       <div id="app">
         <header>
-          <input id="search" v-model="search" v-on:input="searchHandler" placeholder="search">
-          <cart v-on:remove="removeFromCartHandler">
+          <search @filtred="searchHandler"></search>
+          <cart @remove="removeFromCartHandler">
             <goods-item v-for="good in cart" v-bind:title="good.title" v-bind:price="good.price" v-bind:id="good.id" />
           </cart>
         </header>

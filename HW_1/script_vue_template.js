@@ -5,11 +5,11 @@ Vue.component('goods-item', {
   <h3>{{title}}</h3>
   <p>{{price}}</p>
   </div>`,
-  props: ['title', 'price', 'id']
+  props: ['title', 'price', 'id'],
 })
 
 Vue.component('cart', {
-  template: `<div>
+  template: `<div class="header_bottom">
   <button class="cart-button" @click="openCartHandler" type="button">
   BIN</button> 
   <div v-if="isVisibleCart" v-on:click="removeHandler">
@@ -25,10 +25,19 @@ Vue.component('cart', {
     openCartHandler() {
       this.isVisibleCart = !this.isVisibleCart
     },
-
     removeHandler(e) {
       this.$emit('remove', e)
-    }
+    },
+
+  }
+})
+
+Vue.component('search', {
+  template: `<input id="search" @input="searchHandler" placeholder="search">`,
+  methods: {
+    searchHandler(e) {
+      this.$emit('filtred', e)
+    },
   }
 })
 
@@ -46,19 +55,21 @@ const vue = new Vue({
       const good = this.goods.find((item) => item.id == id)
       this.cart.push(good)
     },
-
     removeFromCartHandler(e) {
       const id = e.target.closest('.goods-item').dataset.id
       const goodIndex = this.cart.findIndex((item) => item.id == id)
       this.cart.splice(goodIndex, 1)
     },
-
-    searchHandler() {
-      if (this.search === '') {
-        this.filtredGoods = this.goods
+    searchHandler(e) {
+      const {
+        target: { value },
+      } = e;
+      if (value === "") {
+        this.filtredGoods = this.goods;
       }
-      const regexp = new RegExp(this.search, 'gi')
-      this.filtredGoods = this.goods.filter((good) => regexp.test(good.title))
+      const regexp = new RegExp(value, "gi");
+      this.filtredGoods = this.goods.filter((good) => regexp.test(good.title));
+
     },
 
     fetch(error, success) {
