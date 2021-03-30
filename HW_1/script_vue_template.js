@@ -11,7 +11,6 @@ Vue.component('goods-item', {
 
 Vue.component('cart', {
   template: `<div>
- 
   <button class="cart-button" @click="openCartHandler" type="button">
   BIN</button> 
   <div v-if="isVisibleCart" v-on:click="removeHandler">
@@ -30,7 +29,6 @@ Vue.component('cart', {
     removeHandler(e) {
       this.$emit('remove', e)
     },
-
   }
 })
 
@@ -48,7 +46,7 @@ Vue.component('search', {
       if (this.search === '') {
         this.arrFiltered = this.arr
       }
-      const regexp = new RegExp(this.search, "gi")
+      const regexp = new RegExp(this.search, "i")
       this.arrFiltered = this.arr.filter((good) => regexp.test(good.title));
       this.$emit('filtred', this.arrFiltered)
     }
@@ -58,8 +56,6 @@ Vue.component('search', {
   }
 })
 
-
-
 const vue = new Vue({
   el: '#app',
   data: {
@@ -68,7 +64,6 @@ const vue = new Vue({
     filtredGoods: [],
   },
   methods: {
-
     addToCartHandler(e) {
       const id = e.target.closest('.goods-item').dataset.id
       const good = this.goods.find((item) => item.id == id)
@@ -110,7 +105,6 @@ const vue = new Vue({
           }
         }
       }
-
       xhr.open('GET', API_URL, true)
       xhr.send()
     },
