@@ -8,8 +8,10 @@ Vue.component('goods-item', {
   props: ['title', 'price', 'id'],
 })
 
+
 Vue.component('cart', {
-  template: `<div class="header_bottom">
+  template: `<div>
+ 
   <button class="cart-button" @click="openCartHandler" type="button">
   BIN</button> 
   <div v-if="isVisibleCart" v-on:click="removeHandler">
@@ -33,13 +35,30 @@ Vue.component('cart', {
 })
 
 Vue.component('search', {
-  template: `<input id="search" @input="searchHandler" placeholder="search">`,
+  template: `<input @input="check" v-model="search" placeholder="ПОИСК">`,
+  data() {
+    return {
+      search: '',
+      arrFiltered: []
+    }
+  },
   methods: {
-    searchHandler(e) {
-      this.$emit('filtred', e)
-    },
+    check() {
+      //e.target.value
+      if (this.search === '') {
+        this.arrFiltered = this.arr
+      }
+      const regexp = new RegExp(this.search, "gi")
+      this.arrFiltered = this.arr.filter((good) => regexp.test(good.title));
+      this.$emit('filtred', this.arrFiltered)
+    }
+  },
+  props: {
+    arr: Array
   }
 })
+
+
 
 const vue = new Vue({
   el: '#app',
@@ -47,9 +66,9 @@ const vue = new Vue({
     cart: [],
     goods: [],
     filtredGoods: [],
-    search: ''
   },
   methods: {
+
     addToCartHandler(e) {
       const id = e.target.closest('.goods-item').dataset.id
       const good = this.goods.find((item) => item.id == id)
@@ -61,14 +80,15 @@ const vue = new Vue({
       this.cart.splice(goodIndex, 1)
     },
     searchHandler(e) {
-      const {
-        target: { value },
-      } = e;
-      if (value === "") {
-        this.filtredGoods = this.goods;
-      }
-      const regexp = new RegExp(value, "gi");
-      this.filtredGoods = this.goods.filter((good) => regexp.test(good.title));
+      // const {
+      //   target: { value },
+      // } = e;
+      // if (value === "") {
+      //   this.filtredGoods = this.goods;
+      // }
+      // const regexp = new RegExp(value, "gi");
+      // this.filtredGoods = this.goods.filter((good) => regexp.test(good.title));
+      this.filtredGoods = e
 
     },
 

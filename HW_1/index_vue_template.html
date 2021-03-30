@@ -15,9 +15,12 @@
   <div class="wrapper">
     <div class="top">
       <div id="app">
+
         <header>
-          <search @filtred="searchHandler"></search>
+
+          <search v-bind:arr="goods" @filtred="searchHandler"></search>
           <cart @remove="removeFromCartHandler">
+
             <goods-item v-for="good in cart" v-bind:title="good.title" v-bind:price="good.price" v-bind:id="good.id" />
           </cart>
         </header>
@@ -27,6 +30,8 @@
             <goods-item v-for="good in filtredGoods" v-bind:title="good.title" v-bind:price="good.price"
               v-bind:id="good.id"></goods-item>
           </div>
+          <br>
+
         </main>
 
       </div>
