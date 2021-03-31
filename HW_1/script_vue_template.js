@@ -1,34 +1,57 @@
 const API_URL = 'https://raw.githubusercontent.com/DeevMaks/GB_java_script_part_2/main/goods.json'
 
 Vue.component('goods-item', {
-  template: `<div :data-id="id" class="goods-item">
+  template: `<div :data-id="id" class="goods-item" >
   <h3>{{title}}</h3>
   <p>{{price}}</p>
+  <button v-on:click="add">add</button>
   </div>`,
   props: ['title', 'price', 'id'],
+  methods: {
+    add(e) {
+      this.$emit('buttoadd', e)
+    }
+  }
 })
 
+Vue.component('goods-item-cart', {
+  template: `<div :data-id="id" class="goods-item" >
+  <h3>{{title}}</h3>
+  <p>{{price}}</p>
+  <button v-on:click="add"> del </button>
+  </div>`,
+  props: ['title', 'price', 'id'],
+  methods: {
+    add(e) {
+      this.$emit('buttoadd', e)
+    }
+  }
+})
 
 Vue.component('cart', {
   template: `<div>
   <button class="cart-button" @click="openCartHandler" type="button">
-  BIN</button> 
-  <div v-if="isVisibleCart" v-on:click="removeHandler">
-  <slot></slot>
+  BIN <span v-if="cart_arr.length>0">{{cart_arr.length}}</span></button> 
+  <div v-if="isVisibleCart">
+  <slot> </slot>
+  <h3>SUM <span v-if="cartSum()>0">{{cartSum()}}</span></h3>
   </div>
   </div>`,
   data() {
     return {
-      isVisibleCart: false
+      isVisibleCart: true,
     }
+  },
+  props: {
+    cart_arr: Array
   },
   methods: {
     openCartHandler() {
       this.isVisibleCart = !this.isVisibleCart
     },
-    removeHandler(e) {
-      this.$emit('remove', e)
-    },
+    cartSum() {
+      return this.cart_arr.reduce((acc, current) => { return acc + current.price }, 0)
+    }
   }
 })
 
@@ -44,15 +67,15 @@ Vue.component('search', {
     check() {
       //e.target.value
       if (this.search === '') {
-        this.arrFiltered = this.arr
+        this.arrFiltered = this.goods_arr
       }
       const regexp = new RegExp(this.search, "i")
-      this.arrFiltered = this.arr.filter((good) => regexp.test(good.title));
+      this.arrFiltered = this.goods_arr.filter((good) => regexp.test(good.title));
       this.$emit('filtred', this.arrFiltered)
     }
   },
   props: {
-    arr: Array
+    goods_arr: Array
   }
 })
 
@@ -65,9 +88,11 @@ const vue = new Vue({
   },
   methods: {
     addToCartHandler(e) {
+
       const id = e.target.closest('.goods-item').dataset.id
       const good = this.goods.find((item) => item.id == id)
       this.cart.push(good)
+
     },
     removeFromCartHandler(e) {
       const id = e.target.closest('.goods-item').dataset.id

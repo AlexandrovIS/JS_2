@@ -18,17 +18,20 @@
 
         <header>
 
-          <search v-bind:arr="goods" @filtred="searchHandler"></search>
-          <cart @remove="removeFromCartHandler">
+          <search v-bind:goods_arr="goods" @filtred="searchHandler"></search>
 
-            <goods-item v-for="good in cart" v-bind:title="good.title" v-bind:price="good.price" v-bind:id="good.id" />
+          <cart v-bind:cart_arr="cart">
+            <!-- @remove="removeFromCartHandler"-->
+            <goods-item-cart v-for="good in cart" v-bind:title="good.title" v-bind:price="good.price"
+              v-bind:id="good.id" @buttoadd="removeFromCartHandler" />
           </cart>
         </header>
 
         <main class="container">
-          <div class="goods-list" v-on:click="addToCartHandler">
+          <div class="goods-list">
+            <!-- @click="addToCartHandler" -->
             <goods-item v-for="good in filtredGoods" v-bind:title="good.title" v-bind:price="good.price"
-              v-bind:id="good.id"></goods-item>
+              v-bind:id="good.id" @buttoadd="addToCartHandler"></goods-item>
           </div>
           <br>
 
