@@ -28,5 +28,15 @@
     "id": 6,
     "title": "Jacket",
     "price": 450
+  },
+  {
+    "id": 7,
+    "title": "T-Shirt",
+    "price": 220
+  },
+  {
+    "id": 8,
+    "title": "YYYYYY",
+    "price": 620
   }
 ]
