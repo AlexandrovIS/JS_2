@@ -21,7 +21,7 @@ Vue.component('goods-item-cart', {
   props: ['title', 'price', 'id'],
   methods: {
     add(e) {
-      this.$emit('buttoadd', this.id)
+      this.$emit('buttoadd', e)
     }
   }
 })
@@ -105,21 +105,20 @@ const vue = new Vue({
       this.cart.push(good)
 
     },
-    removeFromCartHandler(id) {
-      // const id = e.target.closest('.goods-item').dataset.id
+    removeFromCartHandler(e) {
+      const id = e.target.closest('.goods-item').dataset.id
       const goodIndex = this.cart.findIndex((item) => item.id == id)
-
-
+      this.cart.splice(goodIndex, 1)
 
       fetch('/cart', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(this.cart)
       })
 
-      this.cart.splice(goodIndex, 1)
+
 
     },
     searchHandler(e) {
@@ -148,3 +147,5 @@ const vue = new Vue({
       })
   }
 })
+
+// cd main/project/server
