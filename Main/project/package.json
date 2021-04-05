@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "author": "LXV_J (Alexandrovis@gmail.com)",
   "license": "ISC",
@@ -12,5 +14,8 @@
     "express": "^4.17.1",
     "node-static": "^0.7.11"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "webpack": "^5.30.0",
+    "webpack-cli": "^4.6.0"
+  }
 }
